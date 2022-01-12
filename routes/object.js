@@ -169,7 +169,7 @@ router.post('/:where/:type', (req, res) => {
         // 設定分數
         let score = 0;
         // 拿取資料庫答案
-        Answer.findOne({ '_id': '61d6840828c3001b6974c14e' }, function(err, objects) {
+        Answer.findOne({ '_id': '61dd650e0f16fb715de27ee0' }, function(err, objects) {
             let Single = objects.Single;
             let Multiple = objects.Multiple;
             let singleDb = [];
@@ -379,7 +379,7 @@ router.post('/:where/:type', (req, res) => {
         // 設定分數
         let score = 0;
         // 拿取資料庫答案
-        Answer.findOne({ '_id': '61d68415d31ee6a8dd01e4e4' }, function(err, objects) {
+        Answer.findOne({ '_id': '61dd651d370b2c459c91e6bd' }, function(err, objects) {
             let Single = objects.Single;
             let singleDb = [];
             // 單選
@@ -459,7 +459,7 @@ router.post('/:where/:type', (req, res) => {
         // 設定分數
         let score = 0;
         // 拿取資料庫答案
-        Answer.findOne({ '_id': '61d6841ab376df0dad029ca6' }, function(err, objects) {
+        Answer.findOne({ '_id': '61dd6537b8286db83eeb7df9' }, function(err, objects) {
             let Single = objects.Single;
             let Multiple = objects.Multiple;
             let Optional = objects.Optional;
@@ -633,7 +633,6 @@ router.post('/:where/:type', (req, res) => {
             }
             // 對選填A
             if (Optional14 !== undefined && Optional15 !== undefined) {
-                console.log(optionalDb[0], optionalA);
                 if (JSON.stringify(optionalDb[0] === JSON.stringify(optionalA))) {
                     score += 5;
                 }

@@ -1,7 +1,7 @@
 extends ../layout
 block container 
-    .progress(style="margin: 1rem;")
-        .chinesebar.progress-bar(role='progressbar' aria-valuemin='0' aria-valuemax='100' style="width: 0%")
+    .progress.fixed-bottom
+        .chinesebar.progress-bar.progress-bar-striped.progress-bar-animated.bg-info(role='progressbar' aria-valuemin='0' aria-valuemax='100' style="width: 0%")
     .d-flex.justify-content-between.my-5
         .time.d-flex.flex-column.ms-5.h-100
             h3 剩餘時間：
