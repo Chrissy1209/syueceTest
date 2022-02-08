@@ -27,19 +27,6 @@ fetch("/API/110Chinese.json")
 
             }
         };
-        // let topic =data.document.page[1].row[6].column[0].text.text;
-        // let topic1 =data.document.page[1].row[7].column[0].text.text;
-        // let topic2 =data.document.page[1].row[7].column[2].text.text;
-        // let topic3 =data.document.page[1].row[8].column[0].text.text;
-        // let topic4 =data.document.page[1].row[8].column[2].text.text;
-        // let topic5 =data.document.page[10].row[12].column[0].text.text;
-        // for(let j=0;j<2;j++){
-        //   topic =data.document.page[10].row[12].column[0].text.text;
-        //   if(topic!=undefined && topic!="" ){
-        //     $('#question-form').append(topic);
-        //     console.log(topic);
-        //   }
-        // }
     });
 
 //----時間

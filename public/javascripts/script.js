@@ -147,6 +147,5 @@
             let s = (count / 20) * 100;
             $(".mathbar").css("width", s + "%");
         });
-        //--------新增的每一個都要寫!!! Thanks
     })
 })(jQuery)

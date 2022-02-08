@@ -26,7 +26,6 @@ fetch("/API/110English.json")
                         $('#question-form').append(topic + "<br>");
                     }
                 }
-
             }
         }
     });

@@ -8,7 +8,6 @@
     header {
         height: 150px;
         background-color: rgb(255, 255, 255);
-        /* border-bottom: 3px rgb(128, 128, 128) dashed; */
     }
     
     a {
@@ -392,9 +391,7 @@
     /*關於我們*/
     
     #about {
-        /* width: 800px; */
         margin: 0 50px;
-        /* height: 1050px; */
         border-radius: 10px;
         padding: 1rem 3rem!important;
         height: auto;
@@ -428,7 +425,6 @@
     
     .about-name {
         margin: 0px 0px 20px 0px;
-        /* border:3px rgb(0, 0, 0) dashed; */
         border-radius: 10px;
         background-color: rgb(255, 253, 253, 0.92);
         box-shadow: 12px 12px 7px rgb(12, 0, 0);

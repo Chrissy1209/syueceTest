@@ -25,7 +25,6 @@ fetch("/API/110Math.json")
                         $('#question-form').append(topic + "<br>");
                     }
                 }
-
             }
         }
     });
