@@ -18,9 +18,9 @@ router.use(session({
 }));
 router.use(passport.initialize());
 router.use(passport.session());
-//
+
 router.get('/score', (req, res) => {
-    Score.findOne({}, {}, { sort: { '_id': -1 } }, function(err, data) {
+    Score.findOne({},{}, { sort: { '_id': -1 } }, function(err, data) {
         if (err) throw err;
         let barColor1 = 'rgba(54, 162, 235, 0.5)';
         let barColor2 = 'rgba(54, 162, 235, 0.5)';
@@ -34,60 +34,19 @@ router.get('/score', (req, res) => {
         let barColor10 = 'rgba(54, 162, 235, 0.5)';
         let num = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         let object;
-        switch (parseInt(data.score / 10)) {
-            case 1:
-                {
-                    barColor1 = 'rgba(255, 99, 133, 0.5)';
-                    break;
-                }
-            case 2:
-                {
-                    barColor2 = 'rgba(255, 99, 133, 0.5)';
-                    break;
-                }
-            case 3:
-                {
-                    barColor3 = 'rgba(255, 99, 133, 0.5)';
-                    break;
-                }
-            case 4:
-                {
-                    barColor4 = 'rgba(255, 99, 133, 0.5)';
-                    break;
-                }
-            case 5:
-                {
-                    barColor5 = 'rgba(255, 99, 133, 0.5)';
-                    break;
-                }
-            case 6:
-                {
-                    barColor6 = 'rgba(255, 99, 133, 0.5)';
-                    break;
-                }
-            case 7:
-                {
-                    barColor7 = 'rgba(255, 99, 133, 0.5)';
-                    break;
-                }
-            case 8:
-                {
-                    barColor8 = 'rgba(255, 99, 133, 0.5)';
-                    break;
-                }
-            case 9:
-                {
-                    barColor9 = 'rgba(255, 99, 133, 0.5)';
-                    break;
-                }
-            case 10:
-                {
-                    barColor10 = 'rgba(255, 99, 133, 0.5)';
-                    break;
-                }
-            default:
-                barColor1 = 'rgba(255, 99, 133, 0.5)';
-        }
+        let score = (parseInt(data.score / 10));
+        if(score == 1) barColor1 = 'rgba(255, 99, 133, 0.5)';
+        else if(score == 2) barColor2 = 'rgba(255, 99, 133, 0.5)';
+        else if(score == 3) barColor3 = 'rgba(255, 99, 133, 0.5)';
+        else if(score == 4) barColor4 = 'rgba(255, 99, 133, 0.5)';
+        else if(score == 5) barColor5 = 'rgba(255, 99, 133, 0.5)';
+        else if(score == 6) barColor6 = 'rgba(255, 99, 133, 0.5)';
+        else if(score == 7) barColor7 = 'rgba(255, 99, 133, 0.5)';
+        else if(score == 8) barColor8 = 'rgba(255, 99, 133, 0.5)';
+        else if(score == 9) barColor9 = 'rgba(255, 99, 133, 0.5)';
+        else if(score == 10) barColor10 = 'rgba(255, 99, 133, 0.5)';
+        else barColor1 = 'rgba(255, 99, 133, 0.5)';
+
         switch (data.object) {
             case "Chinese":
                 object = "國文";
@@ -129,6 +88,40 @@ router.get('/score', (req, res) => {
     });
 });
 
+let score = 0;
+function MultipleScore_Chinese(Multiple, multipleDb){
+    let count = 0;
+
+    if (Multiple !== undefined) {
+
+        console.log(JSON.stringify(Multiple));
+        console.log(JSON.stringify(multipleDb));
+
+        if (JSON.stringify(Multiple) === JSON.stringify(multipleDb)) {
+            score += 4;
+        } else if (Multiple.length > multipleDb.length) {
+            for (let i = 0; i < Multiple.length; i++) {
+                // let x = JSON.stringify(multipleDb).search(JSON.stringify(Multiple[i]));
+                // if (x === -1) {
+                if (multipleDb[i] === undefined) {
+                    count++;
+                }
+            }
+            count === 1 ? score += 2.4 : count === 2 ? score += 0.8 : score += 0;
+        } else {
+            for (let i = 0; i < multipleDb.length; i++) {
+                // let x = JSON.stringify(Multiple).search(JSON.stringify(multipleDb[i]));
+                // if (x === -1) {
+                if (Multiple[i] === undefined) {
+                    count++;
+                }
+            }
+            count === 1 ? score += 2.4 : count === 2 ? score += 0.8 : score += 0;
+        }
+        console.log("my score is " + score);
+    }
+}
+
 router.post('/:where/:type', (req, res) => {
     if (req.params.type === 'sign-in') {
         let user = {};
@@ -166,8 +159,6 @@ router.post('/:where/:type', (req, res) => {
         let Multiple5 = req.body.Chinese40;
         let Multiple6 = req.body.Chinese41;
         let Multiple7 = req.body.Chinese42;
-        // 設定分數
-        let score = 0;
         // 拿取資料庫答案
         Answer.findOne({ '_id': '61d6840828c3001b6974c14e' }, function(err, objects) {
             let Single = objects.Single;
@@ -182,180 +173,22 @@ router.post('/:where/:type', (req, res) => {
             for (let i of Multiple) {
                 multipleDb.push(i);
             };
-            // 對單選題
+            // 單選對題
             for (let i = 0; i < singleDb.length; i++) {
                 if (singleStudent[i] === singleDb[i]) {
                     score += 2;
                 }
             };
-            // 對多選35題
-            let count = 0;
-            if (Multiple0 !== undefined) {
-                if (JSON.stringify(Multiple0) === JSON.stringify(multipleDb[0])) {
-                    score += 4;
-                } else if (Multiple0.length > multipleDb[0].length) {
-                    for (let i = 0; i < Multiple0.length; i++) {
-                        if (multipleDb[0][i] === undefined) {
-                            count++;
-                        }
-                    }
-                    count === 1 ? score += 2.4 : count === 2 ? score += 0.8 : score += 0;
-                } else {
-                    for (let i = 0; i < multipleDb[0].length; i++) {
-                        if (Multiple0[i] === undefined) {
-                            count++;
-                        }
-                    }
-                    count === 1 ? score += 2.4 : count === 2 ? score += 0.8 : score += 0;
-                }
-            }
-            // 對多選36題
-            if (Multiple1 !== undefined) {
-                count = 0;
-                if (JSON.stringify(Multiple1) === JSON.stringify(multipleDb[1])) {
-                    score += 4;
-                } else if (Multiple1.length > multipleDb[1].length) {
-                    for (let i = 0; i < Multiple1.length; i++) {
-                        if (multipleDb[1][i] === undefined) {
-                            count++;
-                        }
-                    }
-                    count === 1 ? score += 2.4 : count === 2 ? score += 0.8 : score += 0;
-                } else {
-                    for (let i = 0; i < multipleDb[1].length; i++) {
-                        if (Multiple1[i] === undefined) {
-                            count++;
-                        }
-                    }
-                    count === 1 ? score += 2.4 : count === 2 ? score += 0.8 : score += 0;
-                }
-            }
-            // 對多選37題
-            if (Multiple2 !== undefined) {
-                count = 0;
-                if (JSON.stringify(Multiple2) === JSON.stringify(multipleDb[2])) {
-                    score += 4;
-                } else if (Multiple2.length > multipleDb[2].length) {
-                    for (let i = 0; i < Multiple2.length; i++) {
-                        if (multipleDb[2][i] === undefined) {
-                            count++;
-                        }
-                    }
-                    count === 1 ? score += 2.4 : count === 2 ? score += 0.8 : score += 0;
-                } else {
-                    for (let i = 0; i < multipleDb[2].length; i++) {
-                        if (Multiple2[i] === undefined) {
-                            count++;
-                        }
-                    }
-                    count === 1 ? score += 2.4 : count === 2 ? score += 0.8 : score += 0;
-                }
-            }
-            // 對多選38題
-            if (Multiple3 !== undefined) {
-                count = 0;
-                if (JSON.stringify(Multiple3) === JSON.stringify(multipleDb[3])) {
-                    score += 4;
-                } else if (Multiple3.length > multipleDb[3].length) {
-                    for (let i = 0; i < Multiple3.length; i++) {
-                        if (multipleDb[3][i] === undefined) {
-                            count++;
-                        }
-                    }
-                    count === 1 ? score += 2.4 : count === 2 ? score += 0.8 : score += 0;
-                } else {
-                    for (let i = 0; i < multipleDb[3].length; i++) {
-                        if (Multiple3[i] === undefined) {
-                            count++;
-                        }
-                    }
-                    count === 1 ? score += 2.4 : count === 2 ? score += 0.8 : score += 0;
-                }
-            }
-            // 對多選39題
-            if (Multiple4 !== undefined) {
-                count = 0;
-                if (JSON.stringify(Multiple4) === JSON.stringify(multipleDb[4])) {
-                    score += 4;
-                } else if (Multiple4.length > multipleDb[4].length) {
-                    for (let i = 0; i < Multiple4.length; i++) {
-                        if (multipleDb[4][i] === undefined) {
-                            count++;
-                        }
-                    }
-                    count === 1 ? score += 2.4 : count === 2 ? score += 0.8 : score += 0;
-                } else {
-                    for (let i = 0; i < multipleDb[4].length; i++) {
-                        if (Multiple0[4] === undefined) {
-                            count++;
-                        }
-                    }
-                    count === 1 ? score += 2.4 : count === 2 ? score += 0.8 : score += 0;
-                }
-            }
-            // 對多選40題
-            if (Multiple5 !== undefined) {
-                count = 0;
-                if (JSON.stringify(Multiple5) === JSON.stringify(multipleDb[5])) {
-                    score += 4;
-                } else if (Multiple5.length > multipleDb[5].length) {
-                    for (let i = 0; i < Multiple5.length; i++) {
-                        if (multipleDb[5][i] === undefined) {
-                            count++;
-                        }
-                    }
-                    count === 1 ? score += 2.4 : count === 2 ? score += 0.8 : score += 0;
-                } else {
-                    for (let i = 0; i < multipleDb[5].length; i++) {
-                        if (Multiple5[i] === undefined) {
-                            count++;
-                        }
-                    }
-                    count === 1 ? score += 2.4 : count === 2 ? score += 0.8 : score += 0;
-                }
-            }
-            // 對多選41題
-            if (Multiple6 !== undefined) {
-                count = 0;
-                if (JSON.stringify(Multiple6) === JSON.stringify(multipleDb[6])) {
-                    score += 4;
-                } else if (Multiple6.length > multipleDb[6].length) {
-                    for (let i = 0; i < Multiple6.length; i++) {
-                        if (multipleDb[6][i] === undefined) {
-                            count++;
-                        }
-                    }
-                    count === 1 ? score += 2.4 : count === 2 ? score += 0.8 : score += 0;
-                } else {
-                    for (let i = 0; i < multipleDb[6].length; i++) {
-                        if (Multiple6[i] === undefined) {
-                            count++;
-                        }
-                    }
-                    count === 1 ? score += 2.4 : count === 2 ? score += 0.8 : score += 0;
-                }
-            }
-            // 對多選42題
-            if (Multiple7 !== undefined) {
-                count = 0;
-                if (JSON.stringify(Multiple7) === JSON.stringify(multipleDb[7])) {
-                    score += 4;
-                } else if (Multiple7.length > multipleDb[7].length) {
-                    for (let i = 0; i < Multiple7.length; i++) {
-                        if (multipleDb[7][i] === undefined) {
-                            count++;
-                        }
-                    }
-                    count === 1 ? score += 2.4 : count === 2 ? score += 0.8 : score += 0;
-                } else {
-                    for (let i = 0; i < multipleDb[7].length; i++) {
-                        if (Multiple7[i] === undefined) {
-                            count++;
-                        }
-                    }
-                    count === 1 ? score += 2.4 : count === 2 ? score += 0.8 : score += 0;
-                }
-            }
+            // 多選對題
+            MultipleScore_Chinese(Multiple0, multipleDb[0]);
+            MultipleScore_Chinese(Multiple1, multipleDb[1]);
+            MultipleScore_Chinese(Multiple2, multipleDb[2]);
+            MultipleScore_Chinese(Multiple3, multipleDb[3]);
+            MultipleScore_Chinese(Multiple4, multipleDb[4]);
+            MultipleScore_Chinese(Multiple5, multipleDb[5]);
+            MultipleScore_Chinese(Multiple6, multipleDb[6]);
+            MultipleScore_Chinese(Multiple7, multipleDb[7]);
+           
             // 成績存入資料庫
             let object = req.params.type;
             let grade = new Score({ score, object });
