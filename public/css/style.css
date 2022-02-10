@@ -232,6 +232,12 @@
     }
     /* 題目 */
     
+    .fixed-bottom {
+        bottom: 3px;
+        right: 1px;
+        left: 1px;
+    }
+
     #submit {
         border-radius: revert;
     }
@@ -271,7 +277,8 @@
         border: 5px groove #c30606;
         border-radius: 10px;
         position: fixed;
-        top: 22%;
+        top: 22%; 
+        /* bottom: 5%; */
         right: 0;
         overflow-x: hidden;
         overflow-y: scroll;
